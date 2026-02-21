@@ -1,0 +1,56 @@
+Top.v
+
+module top(
+    input [6:0] sw,
+    output [1:0] led
+);
+
+    circuit_a a_inst(
+        .A(sw[0]),
+        .B(sw[1]),
+        .C(sw[2]),
+        .D(sw[3]),
+        .Y(led[0])
+        );
+    wire w1 = led[0];
+    circuit_b b_inst(
+        .A(w1),
+        .B(sw[4]),
+        .C(sw[5]),
+        .D(sw[6]),
+        .Y(led[1])
+        );    
+
+endmodule
+
+---------------------------------
+Circuit_a.v
+
+module circuit_a(
+    input A,B,C,D,
+    output Y
+);
+
+    wire w1, w2, w3;
+    assign w1 = ~A;
+    assign w2 = C | D;
+    assign w3 = ~C | D;
+    assign Y = w1 & w2 & w3;
+
+endmodule
+
+---------------------------------
+Circuit_b.v
+
+module circuit_b(
+    input A,B,C,D,
+    output Y
+);
+
+    wire w1, w2, w3;
+    assign w1 = ~C & ~D;
+    assign w2 = A & B;
+    assign w3 = B & C & ~D;
+    assign Y = w1 | w2 | w3;
+
+endmodule
